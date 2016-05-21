@@ -1,1 +1,3 @@
 # botlab
+
+Licensed under MIT
