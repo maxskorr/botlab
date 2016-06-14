@@ -2,16 +2,32 @@ import botlab
 import config
 
 
-db_config = {'host': 'localhost', 'port': 27017, 'database': 'botlabtest'}
+bot = botlab.BotLab(config.SETTINGS)
 
 
-bot = botlab.BotLab(config.TOKEN, db_config)
-
-
-@bot.message_handler('start')
+@bot.message_handler(state='A')
 def echo_text(session, message):
     if message.text is not None:
-        session.reply_message(message.text)
+        session.reply_message('A')
+    #
+    session.set_state('B')
 
 
-bot.polling()
+@bot.message_handler(state='B')
+def echo_start(session, message):
+    if message.text is not None:
+        session.reply_message('B')
+    #
+    session.set_state('C')
+
+
+@bot.message_handler(state='C')
+def echo_start(session, message):
+    if message.text is not None:
+        session.reply_message('C')
+    #
+    session.set_state('A')
+
+
+
+bot.polling(timeout=1)
