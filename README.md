@@ -5,7 +5,7 @@ Currently based on [pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBot
 
 Facilitates the development process by providing basic needs of a bot developer out of the box.
 
-Functionality:
+#### Functionality:
 
 * Stored sessions(mongodb)
 * State machine
