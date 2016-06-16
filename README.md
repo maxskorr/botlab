@@ -13,7 +13,7 @@ Facilitates the development process by providing basic needs of a bot developer 
 * L10n
 
 ### Example of usage:
-
+```python
     import botlab
     import config
     import telebot
@@ -59,11 +59,11 @@ Facilitates the development process by providing basic needs of a bot developer 
 
 
     bot.polling(timeout=1)
-
+```
 
 ### Example of a configuration file:
 
-
+```python
     SETTINGS = {
         'bot': {
             'token':'<BOT_TOKEN_HERE>',
@@ -89,7 +89,7 @@ Facilitates the development process by providing basic needs of a bot developer 
         },
 
     }
-
+```
 
 Contribution is welcome.
 Take a look at [project milestones](https://github.com/aivel/botlab/wiki/Milestones).
