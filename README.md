@@ -71,7 +71,7 @@ Facilitates the development process by providing basic needs of a bot developer 
             'initial_inline_state': 'IA'
         },
         'storage': {
-            'type': 'inmemory', # 'disk', 'inmemory'
+            'type': 'inmemory', # 'disk', 'mongo'
             'params': {
                 # for type = 'mongo'
                 'host': 'localhost',

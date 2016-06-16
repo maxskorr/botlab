@@ -6,7 +6,7 @@ SETTINGS = {
         'initial_inline_state': 'IA'
     },
     'storage': {
-        'type': 'mongo', # 'disk', 'inmemory'
+        'type': 'inmemory', # 'disk', 'mongo'
         'params': {
             # for type = 'mongo'
             'host': 'localhost',
