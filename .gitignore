@@ -2,4 +2,4 @@ config.py
 .idea/
 __pycache__/
 botlab/__pycache__/
-telebot/
+

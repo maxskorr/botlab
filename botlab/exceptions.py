@@ -1,0 +1,4 @@
+
+class UnknownStorageException(Exception):
+    pass
+
