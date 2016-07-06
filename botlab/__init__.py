@@ -1,7 +1,6 @@
 import json
 
 import telebot
-import pymongo
 
 from botlab import storage
 from botlab.exceptions import UnknownStorageException
