@@ -2,7 +2,7 @@ from distutils.core import setup
 setup(
   name = 'botlab',
   packages = ['botlab'],
-  version = '0.1',
+  version = '0.1.1',
   description = 'Tool to ease the development of telegram bots',
   author = 'Max(TrickOrTreat)',
   author_email = 'x@x.x',
