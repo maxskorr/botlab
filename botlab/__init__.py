@@ -154,7 +154,7 @@ class Session(object):
 
 class L10n(object):
     def __init__(self, locale_filename):
-        self.locale = json.load(open(locale_filename))
+        self.locale = json.load(open(locale_filename, encoding='utf-8'))
 
     def translator(self, lang):
         def translate(key, **kwargs):
