@@ -2,5 +2,9 @@
   "hello": {
     "ru": "привет, {name}!",
     "en": "hello, {name}!"
+  },
+  "btn_switch_to_russian": {
+    "ru": "переключить на русский",
+    "en": "switch to english"
   }
 }

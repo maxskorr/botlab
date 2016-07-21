@@ -85,6 +85,7 @@ class Session(object):
         self.bot = bot
         self.chat_id = chat_id
         self.storage = storage
+        self.l10n = l10n
 
         self._translator = l10n.translator(self.get_lang())
 
@@ -113,7 +114,9 @@ class Session(object):
         return found_lang
 
     def set_lang(self, new_lang):
-        return self.set_field('lang', new_lang)
+        result = self.set_field('lang', new_lang)
+        self._translator = self.l10n.translator(new_lang)
+        return result
 
     def get_state(self):
         found_state_values = self.get_field('state')

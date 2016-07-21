@@ -5,9 +5,10 @@ import telebot
 bot = botlab.BotLab(config.SETTINGS)
 
 
-def build_inline_kb_1():
+def build_inline_kb_1(session):
     k = telebot.types.InlineKeyboardMarkup()
-    k.add(telebot.types.InlineKeyboardButton(text='Hi', callback_data='hi'))
+    k.add(telebot.types.InlineKeyboardButton(text=session._('btn_switch_to_russian'),
+                                             callback_data='btn_switch_to_russian'))
     return k
 
 
@@ -20,8 +21,13 @@ def build_inline_kb_2():
 @bot.message_handler(state='A')
 def state_a(session, message):
     if message.text is not None:
-        session.reply_message('A', reply_markup=build_inline_kb_1())
+        session.reply_message('this message is in english(and the kb either)',
+                              reply_markup=build_inline_kb_1(session))
     #
+    session.set_lang('ru')
+
+    session.reply_message(session._('hello', name=message.from_user.first_name))
+
     session.set_state('B')
 
 
@@ -29,6 +35,10 @@ def state_a(session, message):
 def state_b(session, message):
     if message.text is not None:
         session.reply_message('B')
+
+    session.set_lang('en')
+
+    session.reply_message(session._('hello', name=message.from_user.first_name))
     #
     session.set_state('A')  # ciruling between two states: A and B
 
