@@ -1,0 +1,66 @@
+{
+  "msg_main_menu_welcome": {
+    "ru": "Добро пожаловать в бота, {name}!",
+    "en": "Welcome to bot, {name}!"
+  },
+  "msg_switch_lang": {
+    "ru": "Здесь Вы можете сменить язык бота",
+    "en": "Here you can switch bot's language"
+  },
+  "msg_switch_lang_unknown_action": {
+    "ru": "Неизвестное действие. Пожалуйста, нажмите на одну из кнопок.",
+    "en": "Unknown action. Please, press one of the buttons."
+  },
+
+  "msg_change_welcome_message": {
+    "ru": "Здесь Вы можете изменить приветственное сообщение бота.",
+    "en": "Here you can change bot's welcome message."
+  },
+  "msg_change_welcome_message_set_ru": {
+    "ru": "Отправьте текст русского приветственного сообщения",
+    "en": "Send Russian welcome message text"
+  },
+  "msg_change_welcome_message_set_en": {
+    "ru": "Отправьте текст английского приветственного сообщения",
+    "en": "Send English welcome message text"
+  },
+  "msg_change_welcome_message_success": {
+    "ru": "Вы успешно изменили приветственное сообщение!",
+    "en": "You have successfully changed the welcome message!"
+  },
+  "msg_change_welcome_message_try_again": {
+    "ru": "Не удалось изменить приветственное сообщеение",
+    "en": "Could not change welcome message"
+  },
+
+  "btn_switch_lang": {
+    "ru": "Сменить язык",
+    "en": "Switch language"
+  },
+  "btn_switch_lang_to_en": {
+    "ru": "Переключить на английский язык",
+    "en": "Switch to English language"
+  },
+  "btn_switch_lang_to_ru": {
+    "ru": "Переключить на русский язык",
+    "en": "Switch to Russian language"
+  },
+
+  "btn_change_welcome_message": {
+    "ru": "Сменить приветствие в боте",
+    "en": "Change bot's welcome message"
+  },
+  "btn_change_welcome_message_set_ru": {
+    "ru": "Сменить русское сообщение",
+    "en": "Change Russian message"
+  },
+  "btn_change_welcome_message_set_en": {
+    "ru": "Сменить английское сообщение",
+    "en": "Change English message"
+  },
+
+  "btn_go_back": {
+    "ru": "Назад",
+    "en": "Go back"
+  }
+}

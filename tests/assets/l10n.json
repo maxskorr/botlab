@@ -1,0 +1,6 @@
+{
+  "hello": {
+    "ru": "привет, {name}!",
+    "en": "hello, {name}!"
+  }
+}
