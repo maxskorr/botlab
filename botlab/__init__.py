@@ -34,6 +34,12 @@ class BotLab(telebot.TeleBot):
         else:
             raise UnknownStorageException()
 
+    def process_new_updates(self, updates):
+        if updates is None:
+            return
+
+        super().process_new_updates(updates)
+
     def _get_session(self, chat_id):
         return Session(self, chat_id, self.l10n, self._storage, self._config_manager)
 
