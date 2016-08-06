@@ -53,6 +53,20 @@ class BotLab(telebot.TeleBot):
                 return self._get_session(callback_query.message.chat.id)
             else:
                 return self._get_session(callback_query.from_user.id)
+        elif isinstance(any, telebot.types.InlineQuery):
+            inline_query = any
+
+            if inline_query.from_user is not None:
+                return self._get_session(inline_query.from_user.id)
+            else:
+                return None
+        elif isinstance(any, telebot.types.ChosenInlineResult):
+            chosen_inline_result = any
+
+            if chosen_inline_result.from_user is not None:
+                return self._get_session(chosen_inline_result.from_user.id)
+            else:
+                return None
         else:
             return None
 
