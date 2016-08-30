@@ -4,13 +4,11 @@ import botlab
 
 from example import config
 
-
 settings = config.SETTINGS
 # be sure to pass a telegram bot token
 # as an environmental variable or within
 # the configuration file
 settings['bot']['token'] = os.environ.get('BOT_TOKEN')
-
 
 bot = botlab.BotLab(settings)
 
@@ -67,7 +65,7 @@ def build_change_welcome_message_keyboard(session):
 # It is strongly recommended writing such a hook
 #   the first handler in the file due to the algorithm
 #   that tests filters of handlers against incoming messages
-@bot.message_handler(func=lambda msg: True)
+# @bot.message_handler(func=lambda msg: True)
 def hook_all_messages(session, message):
     text = message.text
 
@@ -93,6 +91,18 @@ def main_menu_state(session, message):
     kb = build_main_menu_keyboard(session)
 
     text = message.text
+
+    counters_coll = session.collection('counters')  # access collection
+
+    lang_switches_obj = counters_coll.get_object({'name': 'lang_switches'})  # get an object from the collection
+
+    if lang_switches_obj is None:
+        # if does not exist - create a new one
+        lang_switches_obj = {'counter': 0, 'name': 'lang_switches'}
+
+    lang_switches_obj['counter'] += 1  # update counter
+
+    counters_coll.set_object(lang_switches_obj, {'name': 'lang_switches'})  # update the entire object
 
     # That's how we check text of incoming messages against button labels
     if text == session._('btn_switch_lang'):
@@ -120,7 +130,8 @@ def main_menu_state(session, message):
     #   `Hello, {name}`
     # `{name}` here is a placeholder for the parameter we gonna be passing to `session._`,
     #   while playing with localized strings.
-    response_text = session._('msg_main_menu_welcome', name=message.from_user.first_name)
+    response_text = session._('msg_main_menu_welcome', name=message.from_user.first_name) \
+                    + ('; it is your %s start' % lang_switches_obj['counter'])
 
     session.reply_message(response_text, reply_markup=kb)
 
