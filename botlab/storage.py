@@ -33,6 +33,10 @@ class Storage(object):
     def set_object(self, collection_name, new_object, filter_options, multi=False):
         pass
 
+    @staticmethod
+    def remove_object(self, collection_name, filter_options, multi=False):
+        pass
+
     def collection(self, collection_name):
         coll = Collection()
 
@@ -48,15 +52,20 @@ class Storage(object):
         def decorated_set_object(new_object, filter_options, multi=False):
             return self.set_object(collection_name, new_object, filter_options, multi)
 
+        def decorated_remove_object(filter_options, multi=False):
+            return self.remove_object(collection_name, filter_options, multi)
+
         decorated_get_field.__name__ = 'get_field'
         decorated_set_field.__name__ = 'set_field'
         decorated_get_object.__name__ = 'get_object'
         decorated_set_object.__name__ = 'set_object'
+        decorated_remove_object.__name__ = 'remove_object'
 
         setattr(coll, decorated_get_field.__name__, decorated_get_field)
         setattr(coll, decorated_set_field.__name__, decorated_set_field)
         setattr(coll, decorated_get_object.__name__, decorated_get_object)
         setattr(coll, decorated_set_object.__name__, decorated_set_object)
+        setattr(coll, decorated_remove_object.__name__, decorated_remove_object)
 
         return coll
 
@@ -65,6 +74,24 @@ class InMemoryStorage(Storage):
     def __init__(self, config):
         super().__init__(config)
         self.store = {}
+
+    @staticmethod
+    def _find_conforming_objects(collection, filter_options):
+        conforming_objects = []
+
+        for obj in collection:
+            conforms = True
+
+            for filter_key in filter_options.keys():
+                if obj.get(filter_key) != filter_options[filter_key]:
+                    conforms = False
+                    break
+
+            if conforms:
+                # object fully conforms
+                conforming_objects.append(obj)
+
+        return conforming_objects
 
     def get_field(self, collection_name, key, **filter_options):
         arr = self.store.get(collection_name, [])
@@ -168,34 +195,40 @@ class InMemoryStorage(Storage):
 
             return True
 
-        def find_conforming_objects(collection, filter_options):
-            conforming_objects = []
-
-            for obj in collection:
-                conforms = True
-
-                for filter_key in filter_options.keys():
-                    if obj.get(filter_key) != filter_options[filter_key]:
-                        conforms = False
-                        break
-
-                if conforms:
-                    # object fully conforms
-                    conforming_objects.append(obj)
-
-            return conforming_objects
-
-        found_objects = find_conforming_objects(collection, filter_options)
+        found_objects = self._find_conforming_objects(collection, filter_options)
 
         if len(found_objects) > 0:
             for found_object in found_objects:
                 collection.remove(found_object)
 
                 if not multi:
-                    # we've already remove one
+                    # we've already removed one
                     break
 
         collection.append(new_object)
+
+        return True
+
+    def remove_object(self, collection_name, filter_options, multi=False):
+        if filter_options is None or not isinstance(filter_options, dict) or len(filter_options.keys()) < 1:
+            raise ArgumentTypeError('filter_options must be a non-empty dict!')
+
+        collection = self.store.get(collection_name, [])
+
+        if len(collection) < 1:
+            return False
+
+        found_objects = self._find_conforming_objects(collection, filter_options)
+
+        if len(found_objects) > 0:
+            for found_object in found_objects:
+                collection.remove(found_object)
+
+                if not multi:
+                    # we've already removed one
+                    break
+        else:
+            return False
 
         return True
 
@@ -233,6 +266,13 @@ class DiskStorage(InMemoryStorage):
         result = super().get_object(collection_name, filter_options, multi)
         return result
 
+    def remove_object(self, collection_name, filter_options, multi=False):
+        result = super().remove_object(collection_name, filter_options, multi)
+
+        json.dump(self.store, open(self.storage_file_path, 'w'))
+
+        return result
+
 
 class MongoStorage(Storage):
     def __init__(self, config):
@@ -256,3 +296,9 @@ class MongoStorage(Storage):
 
     def set_object(self, collection_name, new_object, filter_options, multi=False):
         return self.db[collection_name].update(filter_options, new_object, upsert=True, multi=multi)
+
+    def remove_object(self, collection_name, filter_options, multi=False):
+        if multi:
+            return self.db[collection_name].delete_many(filter_options)
+        else:
+            return self.db[collection_name].delete_one(filter_options)

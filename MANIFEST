@@ -6,3 +6,4 @@ botlab\configuration_manager.py
 botlab\exceptions.py
 botlab\kv_storage.py
 botlab\storage.py
+botlab\utils.py

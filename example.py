@@ -94,6 +94,9 @@ def main_menu_state(session, message):
 
     counters_coll = session.collection('counters')  # access collection
 
+    if text == '/reset':
+        counters_coll.remove_object({'name': 'lang_switches'})
+
     lang_switches_obj = counters_coll.get_object({'name': 'lang_switches'})  # get an object from the collection
 
     if lang_switches_obj is None:
