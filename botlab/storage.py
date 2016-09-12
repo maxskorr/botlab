@@ -33,7 +33,7 @@ class Storage(object):
     def set_object(self, collection_name, new_object, filter_options, multi=False):
         pass
 
-    @staticmethod
+    @abstractmethod
     def remove_object(self, collection_name, filter_options, multi=False):
         pass
 
